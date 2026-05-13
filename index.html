@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idaho — Lounas Lempäälässä</title>
+  <meta name="description" content="Idaho — Hyvää lounasruokaa Lempäälässä. Lounas 12,90 € sisältää keiton, runsaan salaatin, ruokajuoman, kahvin ja pienen makean.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown: #5c1f18;
+      --brown-mid: #8b3028;
+      --brown-light: #c04535;
+      --kraft: #fdf6f0;
+      --kraft-dark: #e8d5c8;
+      --cream: #fdf8f5;
+      --ink: #2a1008;
+      --ink-soft: #9a6a5a;
+      --white: #fff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--brown);
+      background-image:
+        radial-gradient(ellipse 120% 80% at 50% 100%, rgba(92,31,24,.6) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 50% at 20% 0%, rgba(192,69,53,.15) 0%, transparent 50%);
+      min-height: 32vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+
+    .hero h1 {
+      font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: 0.01em;
+      font-size: clamp(4rem, 14vw, 8rem);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--kraft);
+      letter-spacing: -0.01em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-sub {
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      color: rgba(232,213,176,.7);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background: rgba(232,213,176,.12);
+      border: 1px solid rgba(232,213,176,.3);
+      color: var(--kraft);
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-some {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-some a {
+      color: rgba(232,213,176,.6);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid rgba(232,213,176,.2);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      transition: all .2s;
+    }
+
+    .hero-some a:hover { background: rgba(232,213,176,.1); color: var(--kraft); }
+
+    /* NAV */
+    nav {
+      background: var(--brown-mid);
+      display: flex;
+      justify-content: center;
+      gap: clamp(1rem, 4vw, 2.5rem);
+      padding: 0.9rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+
+    nav a {
+      color: rgba(232,213,176,.8);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--kraft); }
+
+    /* SECTIONS */
+    section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    section + section { border-top: 1px solid var(--kraft-dark); }
+
+    h2 {
+      font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: 0.01em;
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+
+    .viikko-otsikko {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* LOUNASLISTA */
+    .viikko { display: grid; gap: 0.75rem; }
+
+    .paiva-card {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(61,43,31,.08);
+      transition: box-shadow .2s;
+    }
+
+    .paiva-card:hover { box-shadow: 0 4px 16px rgba(61,43,31,.12); }
+
+    .paiva-card.tanaan {
+      box-shadow: 0 0 0 2.5px var(--brown-mid), 0 4px 20px rgba(61,43,31,.15);
+    }
+
+    .paiva-header {
+      background: var(--kraft-dark);
+      padding: 0.6rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .paiva-card.tanaan .paiva-header { background: var(--brown-mid); }
+
+    .paiva-header h3 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brown);
+    }
+
+    .paiva-card.tanaan .paiva-header h3 { color: var(--kraft); font-size: 1.1rem; }
+
+    .tanaan-merkki {
+      display: none;
+      background: rgba(232,213,176,.25);
+      color: var(--kraft);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+    }
+
+    .paiva-card.tanaan .tanaan-merkki { display: inline-block; }
+
+    .paiva-body { padding: 0.6rem 1.25rem 0.9rem; }
+    .paiva-body ul { list-style: none; }
+
+    .paiva-body ul li {
+      padding: 0.4rem 0;
+      font-size: 0.95rem;
+      color: var(--ink);
+      border-bottom: 1px solid var(--kraft);
+      display: flex;
+      gap: 0.5rem;
+      align-items: baseline;
+    }
+
+    .paiva-card.tanaan .paiva-body ul li { font-size: 1rem; font-weight: 500; }
+    .paiva-body ul li:last-child { border-bottom: none; }
+
+    .paiva-body ul li::before {
+      content: '·';
+      color: var(--brown-light);
+      font-size: 1.3rem;
+      line-height: 0;
+      flex-shrink: 0;
+      position: relative;
+      top: 2px;
+    }
+
+    .suljettu-teksti {
+      padding: 0.75rem 0;
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+
+    .hintalaatikko {
+      margin-top: 1.75rem;
+      background: var(--brown);
+      color: var(--kraft);
+      padding: 1.25rem 1.5rem;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .hinta-iso {
+      font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: 0.01em;
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .hinta-sisalto { font-size: 0.87rem; opacity: .85; line-height: 1.6; }
+
+    /* AUKIOLOAJAT */
+    .aukiolotaulu {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(61,43,31,.08);
+    }
+
+    .aika-rivi {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--kraft);
+    }
+
+    .aika-rivi:last-child { border-bottom: none; }
+    .paiva-nimi { font-weight: 600; font-size: 0.97rem; }
+    .aika-arvo { font-weight: 500; }
+    .suljettu { color: var(--ink-soft); }
+
+    /* YHTEYSTIEDOT */
+    .yhteys-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .yhteys-kortti {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 1px 4px rgba(61,43,31,.08);
+    }
+
+    .yhteys-kortti .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brown-mid);
+      margin-bottom: 0.4rem;
+    }
+
+    .yhteys-kortti p { font-size: 0.95rem; line-height: 1.6; }
+    .yhteys-kortti a { color: var(--brown); text-decoration: none; font-weight: 500; }
+
+    .maps-btn {
+      display: block;
+      margin-top: 1rem;
+      background: var(--brown);
+      color: var(--kraft);
+      text-align: center;
+      padding: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background .2s;
+    }
+
+    .maps-btn:hover { background: var(--brown-mid); }
+
+    /* FOOTER */
+    footer {
+      background: var(--brown);
+      color: rgba(232,213,176,.4);
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    .footer-some {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .footer-some a {
+      color: rgba(232,213,176,.3);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color .2s;
+    }
+
+    .footer-some a:hover { color: rgba(232,213,176,.7); }
+
+    @media (max-width: 520px) {
+      .yhteys-grid { grid-template-columns: 1fr; }
+      .hintalaatikko { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-inner">
+            <div style="text-align:center">
+        <div style="font-family:'Caveat',cursive;font-size:clamp(4rem,14vw,8rem);color:var(--kraft);line-height:1;letter-spacing:-0.02em;text-shadow:2px 4px 12px rgba(0,0,0,.5)">idaho</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.85rem,2vw,1rem);color:rgba(240,217,200,.65);letter-spacing:0.25em;margin-top:0.4rem;font-weight:600">— LOUNASRAVINTOLA —</div>
+      </div>
+      <span class="hero-badge" id="aukiolo-badge">Avoinna tänään 09:00–15:00</span>
+      <div class="hero-some">
+        <a href="https://facebook.com" target="_blank">Facebook</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <nav>
+    <a href="#lounas">Lounaslista</a>
+    <a href="#aukioloajat">Aukioloajat</a>
+    <a href="#arvostelut">Arvostelut</a><a href="#yhteystiedot">Yhteystiedot</a>
+  </nav>
+
+  <section id="lounas">
+    <h2>Lounaslista <span id="viikonro" style="font-size:1rem;font-weight:400;color:var(--ink-soft)"></span></h2>
+    <p class="viikko-otsikko">Päivitetty 13.5.2026 &nbsp;·&nbsp; <strong>Lounas tarjoillaan 10:30–14:00</strong></p>
+
+    <div class="viikko" id="viikko">
+
+      <div class="paiva-card" data-pvm="2026-04-27">
+        <div class="paiva-header">
+          <h3>Maanantai 27.4.</h3>
+          <span class="tanaan-merkki">Tänään</span>
+        </div>
+        <div class="paiva-body"><ul>
+          <li>Ylikypsää possunposkea black&white (punaviini- ja bearnaisekastikkeet) + muusi</li>
+          <li>Tomaatti-vuohenjuustokeitto</li>
+        </ul></div>
+      </div>
+
+      <div class="paiva-card" data-pvm="2026-04-28">
+        <div class="paiva-header">
+          <h3>Tiistai 28.4.</h3>
+          <span class="tanaan-merkki">Tänään</span>
+        </div>
+        <div class="paiva-body"><ul>
+          <li>Jauhelihakastike + spagetti & pottu</li>
+          <li>Punajuuri-aurajuustokeitto</li>
+        </ul></div>
+      </div>
+
+      <div class="paiva-card" data-pvm="2026-04-29">
+        <div class="paiva-header">
+          <h3>Keskiviikko 29.4.</h3>
+          <span class="tanaan-merkki">Tänään</span>
+        </div>
+        <div class="paiva-body"><ul>
+          <li>Katkarapu-kalacurry, basmatiriisi</li>
+          <li>Caldo verde -keitto</li>
+        </ul></div>
+      </div>
+
+      <div class="paiva-card" data-pvm="2026-04-30">
+        <div class="paiva-header">
+          <h3>Torstai 30.4.</h3>
+          <span class="tanaan-merkki">Tänään</span>
+        </div>
+        <div class="paiva-body"><ul>
+          <li>VAPPULOUNAS! 🥂🤩</li>
+          <li>+ Savulohikeitto</li>
+        </ul></div>
+      </div>
+
+      <div class="paiva-card" data-pvm="2026-05-01">
+        <div class="paiva-header">
+          <h3>Perjantai 1.5.</h3>
+          <span class="tanaan-merkki">Tänään</span>
+        </div>
+        <div class="paiva-body">
+          <p class="suljettu-teksti">RAILAKASTA VAPPUA! 😁🤩</p>
+          <p class="suljettu-teksti" style="margin-top:-0.4rem">Ravintola suljettu</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="hintalaatikko">
+      <div class="hinta-iso">12,90 €</div>
+      <div class="hinta-sisalto">Sisältää keiton, runsaan salaatin,<br>ruokajuoman, kahvin ja pienen makean</div>
+    </div>
+  </section>
+
+  
+  <section id="arvostelut">
+    <h2>Arvostelut <span style="font-size:1rem;font-weight:400;color:var(--ink-soft)">Google</span></h2>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;background:var(--white);padding:1.25rem 1.5rem;border-radius:10px;box-shadow:0 1px 4px rgba(61,43,31,.08)">
+      <div style="font-family:'Caveat',cursive;font-size:3.5rem;font-weight:700;color:var(--brown);line-height:1">4,7</div>
+      <div>
+        <div style="color:#e8a020;font-size:1.2rem;letter-spacing:0.05em">★★★★★</div>
+        <div style="font-size:0.85rem;color:var(--ink-soft);margin-top:0.2rem">48 arvostelua · Google</div>
+      </div>
+    </div>
+    <div style="position:relative;overflow:hidden;border-radius:10px">
+      <div id="arvostelu-track" style="display:flex;transition:transform .5s ease">
+
+        <div style="min-width:100%;background:var(--white);padding:1.5rem;box-sizing:border-box">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem">
+            <div style="font-weight:600">Janne</div>
+            <div style="color:#e8a020">★★★★★</div>
+          </div>
+          <p style="font-size:0.9rem;color:var(--ink);line-height:1.6">Ylivoimaisesti Sääksjärven ja koko Tampereen alueen paras lounas! Ja edullisinkin vielä!</p>
+        </div>
+
+        <div style="min-width:100%;background:var(--white);padding:1.5rem;box-sizing:border-box">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem">
+            <div style="font-weight:600">Asiakas</div>
+            <div style="color:#e8a020">★★★★★</div>
+          </div>
+          <p style="font-size:0.9rem;color:var(--ink);line-height:1.6">Ehkä arvosteluni on hieman liioiteltu mutta jotain kymmenen kertaa tuolla lounastaneena — joka kerta kaikki ruokalajit ja salaatit ovat olleet sellaisia että niihin on "joku" hakenut maut. Idahossa vierailu on ollut talousalueella käynnin kohokohta.</p>
+        </div>
+
+        <div style="min-width:100%;background:var(--white);padding:1.5rem;box-sizing:border-box">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem">
+            <div style="font-weight:600">Mia</div>
+            <div style="color:#e8a020">★★★★★</div>
+          </div>
+          <p style="font-size:0.9rem;color:var(--ink);line-height:1.6">Tässä yrityksessä panostetaan laadukkaisiin raaka-aineisiin sekä ruuan makuun! Uskomattoman hyvää ruokaa ja palvelua. Vahva suositus!</p>
+        </div>
+
+        <div style="min-width:100%;background:var(--white);padding:1.5rem;box-sizing:border-box">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem">
+            <div style="font-weight:600">Eda</div>
+            <div style="color:#e8a020">★★★★★</div>
+          </div>
+          <p style="font-size:0.9rem;color:var(--ink);line-height:1.6">Lunch was tasty and the staff was friendly. Great value for money. I can come again when the menu suits!</p>
+        </div>
+
+        <div style="min-width:100%;background:var(--white);padding:1.5rem;box-sizing:border-box">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.75rem">
+            <div style="font-weight:600">Asiakas</div>
+            <div style="color:#e8a020">★★★★★</div>
+          </div>
+          <p style="font-size:0.9rem;color:var(--ink);line-height:1.6">Parasta lounasruokaa mitä oon ikinä syönyt! Ajatuksella mietitty ja toteutettu, laatu ja maku aina timanttista! Vahva suositus ❤️</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:0.5rem;margin-top:1rem" id="arvostelu-dots">
+      <span onclick="goTo(0)" style="width:8px;height:8px;border-radius:50%;background:var(--brown);cursor:pointer;display:inline-block;opacity:1"></span>
+      <span onclick="goTo(1)" style="width:8px;height:8px;border-radius:50%;background:var(--brown);cursor:pointer;display:inline-block;opacity:.3"></span>
+      <span onclick="goTo(2)" style="width:8px;height:8px;border-radius:50%;background:var(--brown);cursor:pointer;display:inline-block;opacity:.3"></span>
+      <span onclick="goTo(3)" style="width:8px;height:8px;border-radius:50%;background:var(--brown);cursor:pointer;display:inline-block;opacity:.3"></span>
+      <span onclick="goTo(4)" style="width:8px;height:8px;border-radius:50%;background:var(--brown);cursor:pointer;display:inline-block;opacity:.3"></span>
+    </div>
+
+    <script>
+      let arvo = 0;
+      const track = document.getElementById('arvostelu-track');
+      const dots = document.getElementById('arvostelu-dots').children;
+      const total = 5;
+
+      function goTo(n) {
+        arvo = n;
+        track.style.transform = 'translateX(-' + (n * 100) + '%)';
+        [...dots].forEach((d, i) => d.style.opacity = i === n ? '1' : '.3');
+      }
+
+      setInterval(() => goTo((arvo + 1) % total), 4000);
+    </script>
+  </section>
+
+  <section id="aukioloajat">
+    <h2>Aukioloajat</h2>
+    <div class="aukiolotaulu">
+      <div class="aika-rivi">
+        <span class="paiva-nimi">Maanantai–Perjantai</span>
+        <span class="aika-arvo">09:00–15:00</span>
+      </div>
+      <div class="aika-rivi" style="background:var(--kraft-dark)">
+        <span class="paiva-nimi" style="color:var(--brown-mid)">↳ Lounas tarjoillaan</span>
+        <span class="aika-arvo" style="color:var(--brown-mid);font-weight:700">10:30–14:00</span>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="yhteystiedot">
+    <h2>Yhteystiedot</h2>
+    <div class="yhteys-grid">
+      <div class="yhteys-kortti">
+        <p class="label">Osoite</p>
+        <p>Kannistontie 141, 2. krs<br>33880 Lempäälä<br><small style="color:var(--ink-soft)">Uudenmaan kuljetuspalvelujen kiinteistö</small></p>
+      </div>
+      <div class="yhteys-kortti">
+        <p class="label">Yhteystiedot</p>
+        <p><a href="tel:0405137767">040 513 7767</a><br>
+        <a href="mailto:asukas.iida@gmail.com">asukas.iida@gmail.com</a></p>
+      </div>
+    </div>
+    <a class="maps-btn" href="https://maps.google.com/?q=Kannistontie+141,+33880+Lempäälä" target="_blank">
+      📍 Näytä kartalla
+    </a>
+  </section>
+
+  <footer>
+    <p>idaho · Kannistontie 141, 33880 Lempäälä</p>
+    <div class="footer-some">
+      <a href="https://facebook.com" target="_blank">Facebook</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    // Viikon numero
+    function getWeekNumber(d) {
+      d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+      const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+      return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    }
+    document.getElementById('viikonro').textContent = 'Viikko ' + getWeekNumber(new Date());
+
+    // Aukiolo-badge
+    const nyt = new Date();
+    const vkonpaiva = nyt.getDay();
+    const tunti = nyt.getHours() + nyt.getMinutes() / 60;
+    const badge = document.getElementById('aukiolo-badge');
+    const paivanimet = ['sunnuntaina','maanantaina','tiistaina','keskiviikkona','torstaina','perjantaina','lauantaina'];
+
+    if (vkonpaiva >= 1 && vkonpaiva <= 5 && tunti >= 10.5 && tunti < 14) {
+      badge.textContent = 'Lounas tarjoillaan tänään 10:30–14:00';
+    } else if (vkonpaiva >= 1 && vkonpaiva <= 5 && tunti < 10.5) {
+      badge.textContent = 'Lounas alkaa tänään klo 10:30';
+    } else if (vkonpaiva >= 1 && vkonpaiva <= 4 && tunti >= 15) {
+      badge.textContent = 'Suljettu — auki taas ' + paivanimet[vkonpaiva + 1];
+      badge.style.background = 'rgba(0,0,0,.2)';
+    } else {
+      badge.textContent = 'Suljettu — auki taas maanantaina';
+      badge.style.background = 'rgba(0,0,0,.2)';
+    }
+
+    // Tänään + menneet
+    const tanaanStr = new Date().toISOString().split('T')[0];
+
+    // Testimoodi: kaikki näkyvissä, vain tänään korostetaan
+    document.querySelectorAll('.paiva-card').forEach(card => {
+      const pvm = card.dataset.pvm;
+      if (!pvm) return;
+      if (pvm === tanaanStr) {
+        card.classList.add('tanaan');
+      }
+    });
+  </script>
+
+</body>
+</html>
